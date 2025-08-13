@@ -144,7 +144,6 @@ animation: shimmer 1.2s linear infinite;
   margin: 0 auto;
   position: sticky;
   bottom: 0;
-  background: white;
   padding: 6px 0;
   z-index: 2;
 }
@@ -216,13 +215,34 @@ div#webchat button.webchat__send-button svg path {
 
 .ac-input { padding: 5px; }
 
+button.ac-pushButton {
+  background-color: #004d8c !important;
+  transform: scale(1.03);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  border-radius: 150px;   
+  padding: 58px 50px;      
+  color: #fff;           
+  font-weight: bold;      
+  border: none;     
+  margin-left: 2px;      
+}
+
+ .ac-pushButton {
+  background: transparent !important;
+  box-shadow: none !important;       
+} 
+
+.ac-pushButton > * {
+  background: transparent !important; 
+} 
+
 button.ac-pushButton.style-default.primary.style-positive.ac-selectable:hover {
 background-color: #004d8c !important; 
 transform: scale(1.03); 
 box-shadow: 0 4px 10px rgba(0,0,0,0.15); 
 cursor:pointer;
 }
-
 
 @media (max-width:700px){
   .input-wrapper, #suggestions { width:92%; }
