@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Giving365 Agent</title>
+  <link rel="icon" type="image/png" href="images/logo.png">
+
+
+  <!-- Web Chat -->
+  <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+
+
+<header>
+  <img src="images\logo.png" alt="Giving365 Logo">
+  Giving365 Agent
+</header>
+
+
+<body>
+
+  <div id="container">
+    <!-- CENTERED PRE-CHAT -->
+    <div id="initial-view" aria-live="polite">
+      <div id="heading">What can I help you with?</div>
+      <div id="subheading">Hi, I'm your virtual agent. Ask me anything about improving your generosity culture, or pick a question below to get started!</div>
+
+
+      <div class="input-wrapper" role="search" aria-label="Start chat">
+        <input id="userInput" type="text" placeholder="Ask anything" aria-label="Ask anything" />
+          <button id="sendBtn" aria-label="Start chat">
+            <img src="images\sendbutton.png" alt="Send" style="width:20px;height:20px;margin-top:5px;">
+          </button>
+
+
+      </div>
+
+
+      <div id="suggestions" aria-label="Suggested questions">
+      </div>
+    </div>
+    <div id="chat-view">
+      <div id="webchat" role="region" aria-label="Chat window"></div>
+    </div>
+  </div>
+
+</body>
+</html>
