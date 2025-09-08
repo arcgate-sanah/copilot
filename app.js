@@ -64,10 +64,7 @@
       return;
     }
 
-
     directLine = window.WebChat.createDirectLine({ token });
-
-
     directLine.activity$.subscribe(activity => {
       try {
         if (!activity) return;
@@ -175,7 +172,6 @@
       webchatRendered = true;
     }
 
-
     if (initialText?.trim()) {
       setTimeout(() => {
         if (directLine) {
@@ -209,7 +205,6 @@
     }
   });
 
-
   showSuggestionsLoading();
   createDirectLineAndRequestSuggestions().catch(err => {
     console.error('DirectLine init error:', err);
@@ -217,49 +212,67 @@
     directLineReadyResolve();
   });
 
+  
   function addCopyButtons() {
-    document.querySelectorAll('.webchat__bubble__content').forEach(bubble => {
-
+  document.querySelectorAll('.webchat__bubble__content').forEach(bubble => {
     if (bubble.querySelector('.copy-btn')) return;
 
     const answer = bubble.querySelector('.webchat__render-markdown--message-activity');
-    const refs = bubble.querySelector('.webchat__link-definitions');
-    if (!answer || !refs) return;  
+    if (!answer) return;
 
-    const btn = document.createElement('button');
-    btn.className = 'copy-btn';
-    btn.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-        <path d="M10 1.5A1.5 1.5 0 0 1 11.5 3v10A1.5 1.5 0 0 1 10 14.5H4A1.5 1.5 0 0 1 2.5 13V3A1.5 1.5 0 0 1 4 1.5h6zm0 1H4a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h6a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5z"/>
+    const text = answer.innerText.trim();
+    if (!text) return;
+
+    const refBlock = bubble.querySelector('.webchat__link-definitions');
+    const hasInlineLink = answer.querySelector('a');
+    const isGenAIResponse =
+      refBlock || (text.length > 150 && !hasInlineLink);
+
+    if (!isGenAIResponse) return; 
+
+    const nextSibling = bubble.parentElement?.nextElementSibling;
+    const isLastBubble = !nextSibling || !nextSibling.classList.contains('webchat__bubble');
+    if (!isLastBubble) return;
+
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'copy-btn copy-btn-bottom';
+    copyBtn.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M10 1.5A1.5 1.5 0 0 1 11.5 3v10A1.5 1.5 0 0 1 10 14.5H4A1.5 1.5 0 0 1 2.5 13V3A1.5 1.5 0 0 1 4 1.5h6zm0 1H4a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h6a.5.5 0 0 0 .5-.5V3a.5.5 0 0 1 .5-.5z"/>
         <path d="M13.5 4a.5.5 0 0 1 .5.5V13a2 2 0 0 1-2 2H5.5a.5.5 0 0 1 0-1H12a1 1 0 0 0 1-1V4.5a.5.5 0 0 1 .5-.5z"/>
-        </svg>
+      </svg>
     `;
 
-    bubble.style.position = 'relative';
-    bubble.classList.add('has-copy-btn'); 
-    bubble.appendChild(btn);
+    copyBtn.addEventListener('click', () => {
+      const refLinks = [];
+      if (refBlock) {
+        bubble.querySelectorAll('.webchat__link-definitions a').forEach(a => {
+          refLinks.push(`${a.innerText}: ${a.href}`);
+        });
+      }
 
-        btn.addEventListener('click', () => {
-    const text = answer.innerText.trim();
-
-    const refLinks = [];
-    bubble.querySelectorAll('.webchat__link-definitions a').forEach(a => {
-        refLinks.push(`${a.innerText}: ${a.href}`);
-    });
-
-    const finalText = refLinks.length
+      const finalText = refLinks.length
         ? `${text}\n\nReferences:\n${refLinks.join('\n')}`
         : text;
 
-    navigator.clipboard.writeText(finalText).then(() => {
-        btn.innerText = '✅';
-    });
+      navigator.clipboard.writeText(finalText).then(() => {
+        copyBtn.innerText = '✅';
+        setTimeout(() => {
+          copyBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M10 1.5A1.5 1.5 0 0 1 11.5 3v10A1.5 1.5 0 0 1 10 14.5H4A1.5 1.5 0 0 1 2.5 13V3A1.5 1.5 0 0 1 4 1.5h6zm0 1H4a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h6a.5.5 0 0 0 .5-.5V3a.5.5 0 0 1 .5-.5z"/>
+              <path d="M13.5 4a.5.5 0 0 1 .5.5V13a2 2 0 0 1-2 2H5.5a.5.5 0 0 1 0-1H12a1 1 0 0 0 1-1V4.5a.5.5 0 0 1 .5-.5z"/>
+            </svg>
+          `;
+        }, 1500);
+      });
     });
 
-        bubble.style.position = 'relative';
-        bubble.appendChild(btn);
-    });
-    }
+    bubble.style.position = 'relative';
+    bubble.classList.add('has-copy-btn');
+    bubble.appendChild(copyBtn);
+  });
+}
 
 const observer = new MutationObserver(() => addCopyButtons());
 observer.observe(document.querySelector('#webchat'), {
@@ -268,5 +281,4 @@ observer.observe(document.querySelector('#webchat'), {
 });
 
 addCopyButtons();
-
 })();

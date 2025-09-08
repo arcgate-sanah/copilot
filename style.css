@@ -305,9 +305,9 @@ cursor:pointer;
 
 .copy-btn {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  background: #f3f4f6;  
+  bottom: 8px;
+  left: 8px;
+  background: #f3f4f6;
   border: none;
   border-radius: 6px;
   padding: 4px 6px;
@@ -319,12 +319,10 @@ cursor:pointer;
   transition: all 0.2s ease-in-out;
 }
 
-
 .copy-btn:hover {
   background: #e5e7eb;
   color: #000;
 }
-
 
 .copy-btn:active {
   transform: scale(0.9);
@@ -332,6 +330,6 @@ cursor:pointer;
 
 
 .webchat__bubble__content.has-copy-btn {
-  padding-top: 17px !important;
-  padding-right: 32px !important;
+  padding-bottom: 30px !important;
+  padding-left: 9px !important;
 }
