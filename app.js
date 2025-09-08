@@ -212,7 +212,7 @@
     directLineReadyResolve();
   });
 
-  
+
   function addCopyButtons() {
   document.querySelectorAll('.webchat__bubble__content').forEach(bubble => {
     if (bubble.querySelector('.copy-btn')) return;
@@ -264,7 +264,7 @@
               <path d="M13.5 4a.5.5 0 0 1 .5.5V13a2 2 0 0 1-2 2H5.5a.5.5 0 0 1 0-1H12a1 1 0 0 0 1-1V4.5a.5.5 0 0 1 .5-.5z"/>
             </svg>
           `;
-        }, 1500);
+        }, 1500000);
       });
     });
 
