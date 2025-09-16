@@ -3,19 +3,26 @@ html,body { height:100%; margin:0; font-family:"Segoe UI",sans-serif; background
 
 header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  background:  #b8d6ee;
-  color: #fff;
+  background: #b8d6ee;
   padding: 10px 20px;
-  font-weight: 700;
-  font-size: 50px;
 }
-
 
 header img {
-  height: 80px;
-  margin-right: 10px;
+  height: 60px;
 }
+
+header .nav-icon img {
+  height: 40px; 
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+header .nav-icon img:hover {
+  transform: scale(1.1);
+}
+
 
 
 #container { height: calc(100vh - 64px); display:flex; flex-direction:column; }
